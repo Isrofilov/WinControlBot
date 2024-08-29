@@ -2,9 +2,11 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 import os
 import uptime
+from datetime import datetime, timezone
 
 TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN_HERE'
 AUTHORIZED_USERS = [User1,User2,User3]
+TIME_THRESHOLD = 5 * 60
 
 translations = {
     'en': {
@@ -13,7 +15,8 @@ translations = {
         'sleep': 'The computer will be put to sleep...',
         'hibernate': 'The computer will be hibernated...',
         'shutdown': 'Shutting down the computer...',
-        'uptime': 'System uptime: {days} days {hours} hours {minutes} minutes {seconds} seconds'
+        'uptime': 'System uptime: {days} days {hours} hours {minutes} minutes {seconds} seconds',
+        'retry_request': 'Your request was sent too long ago. Please repeat the request.'
     },
     'ru': {
         'unauthorized': 'У вас нет прав для выполнения этой команды.\nВаш userId {user_id}',
@@ -21,7 +24,8 @@ translations = {
         'sleep': 'Компьютер будет отправлен в режим сна...',
         'hibernate': 'Компьютер будет отправлен в режим гибернации...',
         'shutdown': 'Выключаю компьютер...',
-        'uptime': 'Время работы системы: {days} дней {hours} часов {minutes} минут {seconds} секунд'
+        'uptime': 'Время работы системы: {days} дней {hours} часов {minutes} минут {seconds} секунд',
+        'retry_request': 'Ваш запрос был отправлен слишком давно. Пожалуйста, повторите запрос.'
     }
 }
 
@@ -34,6 +38,15 @@ async def is_user_authorized(user_id: int) -> bool:
 async def handle_command(update: Update, message_key: str, action=None, **kwargs) -> None:
     user_id = update.effective_user.id
     language_code = update.effective_user.language_code
+    
+    message_date = update.message.date.replace(tzinfo=timezone.utc)
+    current_time = datetime.now(timezone.utc)
+    time_difference = (current_time - message_date).total_seconds()
+    
+    if time_difference > TIME_THRESHOLD:
+        await send_reply(update, 'retry_request', language_code)
+        return
+    
     if await is_user_authorized(user_id):
         await send_reply(update, message_key, language_code, **kwargs)
         if action:
