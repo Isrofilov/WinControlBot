@@ -8,6 +8,7 @@ WinControlBot is a Telegram bot designed to control your Windows system remotely
 - `/sleep` - Transition the system into sleep mode.
 - `/hibernate` - Hibernate the system.
 - `/shutdown` - Shut down the system.
+- **Automatic request validation** - The bot checks the time difference between the message's sending time and the current system time to prevent the execution of outdated commands (e.g., when the computer was off for an extended period). If the difference exceeds 5 minutes, the bot requests the user to resend the command.
 
 ## Getting Started
 
