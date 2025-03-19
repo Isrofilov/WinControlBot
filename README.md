@@ -7,8 +7,13 @@ WinControlBot is a Telegram bot designed to control your Windows system remotely
 - `/uptime` - Check system uptime.
 - `/sleep` - Transition the system into sleep mode.
 - `/hibernate` - Hibernate the system.
-- `/shutdown` - Shut down the system.
+- `/shutdown` - Shut down the system (with confirmation).
+- `/restart` - Restart the system (with confirmation).
+- `/sysinfo` - Get system information (CPU, memory, disk usage).
+- `/shutdown_in [time]` - Schedule a shutdown after a specified time period.
+- `/screenshot` - Take and send a screenshot of your desktop.
 - **Automatic request validation** - The bot checks the time difference between the message's sending time and the current system time to prevent the execution of outdated commands (e.g., when the computer was off for an extended period). If the difference exceeds 5 minutes, the bot requests the user to resend the command.
+- **Confirmation system** - Critical actions like shutdown and restart require confirmation (30-second delay with cancel option).
 
 ## Getting Started
 
@@ -42,7 +47,19 @@ Now, `WinControlBot.pyw` will run automatically when you log into Windows.
 - `/uptime` - Sends the current system uptime.
 - `/sleep` - Puts the computer into sleep mode.
 - `/hibernate` - Hibernates the computer.
-- `/shutdown` - Shuts down the computer.
+- `/shutdown` - Shuts down the computer (with confirmation).
+- `/restart` - Restarts the computer (with confirmation).
+- `/sysinfo` - Shows system information (CPU, memory, disk usage).
+- `/shutdown_in [time]` - Schedules a shutdown after specified time (format: 1h30m, 45m, 10s).
+- `/screenshot` - Takes and sends a screenshot of your desktop.
+
+## Time Format for `/shutdown_in`
+
+The `/shutdown_in` command accepts time in the following formats:
+- `1h30m` - 1 hour and 30 minutes
+- `45m` - 45 minutes
+- `10s` - 10 seconds
+- Any combination of h (hours), m (minutes), and s (seconds)
 
 ## Localization
 
@@ -50,7 +67,7 @@ WinControlBot supports English and Russian languages, automatically responding i
 
 ## Security
 
-Make sure to keep your Telegram bot token secure and only add trusted user IDs to the `AUTHORIZED_USERS` list.
+Make sure to keep your Telegram bot token secure and only add trusted user IDs to the `AUTHORIZED_USERS` list. The bot includes a confirmation system for critical actions like shutdown and restart to prevent accidental triggering.
 
 ## License
 
