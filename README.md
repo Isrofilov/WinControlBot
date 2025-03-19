@@ -1,80 +1,130 @@
 # WinControlBot
+WinControlBot is a powerful Telegram bot that gives you complete remote control over your Windows system. Using simple Telegram commands, you can manage system power states, monitor performance metrics, schedule shutdowns, and even capture screenshots—all from your mobile device or any Telegram client.
 
-WinControlBot is a Telegram bot designed to control your Windows system remotely. With a set of easy-to-use Telegram commands, you can put your system to sleep, hibernate it, shut it down, or check the system's uptime. This bot ensures that only authorized users can control the system for security purposes.
+## ✨ Key Features
 
-## Features
+- **System Power Management**
+  - `/sleep` - Put your system into sleep mode
+  - `/hibernate` - Hibernate your system
+  - `/shutdown` - Shut down your system (with confirmation)
+  - `/restart` - Restart your system (with confirmation)
+  - `/shutdown_in [time]` - Schedule a shutdown with flexible timing
 
-- `/uptime` - Check system uptime.
-- `/sleep` - Transition the system into sleep mode.
-- `/hibernate` - Hibernate the system.
-- `/shutdown` - Shut down the system (with confirmation).
-- `/restart` - Restart the system (with confirmation).
-- `/sysinfo` - Get system information (CPU, memory, disk usage).
-- `/shutdown_in [time]` - Schedule a shutdown after a specified time period.
-- `/screenshot` - Take and send a screenshot of your desktop.
-- **Automatic request validation** - The bot checks the time difference between the message's sending time and the current system time to prevent the execution of outdated commands (e.g., when the computer was off for an extended period). If the difference exceeds 5 minutes, the bot requests the user to resend the command.
-- **Confirmation system** - Critical actions like shutdown and restart require confirmation (30-second delay with cancel option).
+- **System Monitoring**
+  - `/uptime` - Check system uptime
+  - `/sysinfo` - Get real-time system information (CPU, memory, disk usage)
+  - `/screenshot` - Capture and receive your desktop screen
 
-## Getting Started
+- **Security Features**
+  - **Authorized User Protection** - Only predefined users can control the system
+  - **Command Validation** - Prevents execution of outdated commands (>5 minutes old)
+  - **Confirmation System** - Critical actions require confirmation with 30-second delay and cancel option
 
-To get started with WinControlBot, follow these steps:
+- **User Experience**
+  - **Multilingual Support** - Automatically responds in English or Russian based on user's Telegram client
+  - **Flexible Time Formats** - Intuitive time specifications like "1h30m" or "45m"
 
-1. Clone the repository to your local machine.
-2. Install the required Python packages using `pip install -r requirements.txt`.
-3. Obtain your Telegram bot token from [@BotFather](https://t.me/botfather):
-   - Start a chat with BotFather.
-   - Type `/newbot` and follow the instructions to create a new bot. You will be asked to choose a name and a username for your bot.
-   - After the creation process, BotFather will provide you with a token. This is the token you'll use to authenticate your requests.
-4. Set your Telegram bot token in the variable `YOUR_TELEGRAM_BOT_TOKEN_HERE`.
-5. Add authorized user IDs to the `AUTHORIZED_USERS` list.
-6. To run the bot manually, execute `pythonw WinControlBot.pyw`.
+## 🚀 Getting Started
 
-## Configure for Automatic Startup on Windows
+### Prerequisites
+- Windows operating system
+- Python 3.7+
+- Telegram account
 
-To have WinControlBot start automatically with Windows, you can add `WinControlBot.pyw` to the Startup folder. Follow these steps:
+### Installation
 
-1. Press `Win + R` to open the Run dialog.
-2. Type `shell:startup` and press `Enter` to open the Startup folder.
-3. Create a shortcut of `WinControlBot.pyw` by right-clicking on the file and selecting `Create shortcut`. Then, move this shortcut to the Startup folder.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/WinControlBot.git
+   cd WinControlBot
+   ```
 
-By placing the shortcut in the Startup folder, `WinControlBot.pyw` will be launched automatically whenever you log into Windows. Ensure that the `TOKEN` and `AUTHORIZED_USERS` are correctly set in `WinControlBot.pyw` as this is the file that will be executed.
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Now, `WinControlBot.pyw` will run automatically when you log into Windows.
+3. **Set up your Telegram bot**
+   - Start a chat with [@BotFather](https://t.me/botfather)
+   - Send `/newbot` and follow the instructions
+   - Copy your bot token when provided
 
-## Commands
+4. **Configure the bot**
+   - Open `WinControlBot.pyw` in a text editor
+   - Replace `YOUR_TELEGRAM_BOT_TOKEN_HERE` with your actual token
+   - Add your Telegram User ID to `AUTHORIZED_USERS` list (you can find your ID by sending a message to [@userinfobot](https://t.me/userinfobot))
 
-- `/start` - Lists all available commands.
-- `/uptime` - Sends the current system uptime.
-- `/sleep` - Puts the computer into sleep mode.
-- `/hibernate` - Hibernates the computer.
-- `/shutdown` - Shuts down the computer (with confirmation).
-- `/restart` - Restarts the computer (with confirmation).
-- `/sysinfo` - Shows system information (CPU, memory, disk usage).
-- `/shutdown_in [time]` - Schedules a shutdown after specified time (format: 1h30m, 45m, 10s).
-- `/screenshot` - Takes and sends a screenshot of your desktop.
+5. **Run the bot**
+   ```bash
+   pythonw WinControlBot.pyw
+   ```
 
-## Time Format for `/shutdown_in`
+## 🔄 Auto-Start Configuration
 
-The `/shutdown_in` command accepts time in the following formats:
+### Method 1: Windows Startup Folder
+
+1. Press `Win + R` and type `shell:startup`
+2. Create a shortcut to `WinControlBot.pyw` in the opened folder
+
+### Method 2: Task Scheduler (Advanced)
+
+1. Open Windows Task Scheduler
+2. Create a new task with trigger "At system startup"
+3. Set the action to start `pythonw.exe` with argument path to your `WinControlBot.pyw`
+4. Configure to run with highest privileges and whether user is logged on or not
+
+## 🤖 Bot Commands
+
+| Command | Description |
+|---------|-------------|
+| `/start` | Lists all available commands |
+| `/uptime` | Shows current system uptime |
+| `/sleep` | Puts computer in sleep mode |
+| `/hibernate` | Hibernates the computer |
+| `/shutdown` | Initiates system shutdown with confirmation |
+| `/restart` | Initiates system restart with confirmation |
+| `/sysinfo` | Displays CPU, memory and disk usage |
+| `/shutdown_in [time]` | Schedules shutdown after specified time |
+| `/screenshot` | Captures and sends desktop screenshot |
+
+## ⏱️ Time Format Specification
+
+For the `/shutdown_in` command, use these time formats:
 - `1h30m` - 1 hour and 30 minutes
-- `45m` - 45 minutes
+- `45m` - 45 minutes 
 - `10s` - 10 seconds
 - Any combination of h (hours), m (minutes), and s (seconds)
 
-## Localization
+## 🔒 Security Considerations
 
-WinControlBot supports English and Russian languages, automatically responding in the language of the user's Telegram client.
+- Keep your bot token confidential
+- Only add trusted users to the `AUTHORIZED_USERS` list
+- Consider the security implications of the screenshot feature
+- The bot implements a delay with cancellation option for critical operations
 
-## Security
+## 🌐 Localization
 
-Make sure to keep your Telegram bot token secure and only add trusted user IDs to the `AUTHORIZED_USERS` list. The bot includes a confirmation system for critical actions like shutdown and restart to prevent accidental triggering.
+WinControlBot automatically detects and responds in:
+- English (default)
+- Russian
 
-## License
+The language is automatically selected based on your Telegram client's language setting.
+
+## 📋 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contributions
+## 🤝 Contributing
 
-Contributions are welcome! Please open an issue or pull request if you'd like to help improve WinControlBot.
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest features
+- Submit pull requests
 
-Happy controlling your Windows system remotely!
+## 📬 Contact
+
+If you have questions or feedback, please open an issue in the repository.
+
+---
+
+**Note**: Using this bot gives remote users control over your computer. Always ensure your Telegram account is secure and only grant access to trusted individuals.
