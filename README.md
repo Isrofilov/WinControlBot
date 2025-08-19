@@ -7,15 +7,15 @@ WinControlBot is a powerful Telegram bot that gives you complete remote control 
 
 ### 🔌 System Power Management
 
-* **`/sleep`** — Put the system into sleep mode
-* **`/hibernate`** — Put the system into hibernation mode
-* **`/shutdown`** — Shut down the system
-* **`/restart`** — Restart the system
+* **`😴 Sleep`** — Put the system into sleep mode
+* **`💤 Hibernate`** — Put the system into hibernation mode
+* **`🔴 Shutdown`** — Shut down the system
+* **`🔄 Restart`** — Restart the system
 
 ### 📊 System Monitoring
 
-* **`/status`** — Get system status (computer name, CPU model, RAM usage, uptime)
-* **`/screenshot`** — Take and receive a screenshot of the desktop
+* **`📋 Status`** — Get system status (computer name, CPU model, RAM usage, uptime)
+* **`📸 Screenshot`** — Take and receive a screenshot of the desktop
 
 ### 🛡️ Security
 
@@ -70,15 +70,15 @@ WinControlBot is a powerful Telegram bot that gives you complete remote control 
 
 ## 🎮 Bot Commands
 
-| Command       | Description                                   | Security Level          |
-|---------------|-----------------------------------------------|-------------------------|
-| `/start`      | Display a list of all available commands      | ✅ Safe                 |
-| `/status`     | Computer name, CPU model, RAM usage, uptime   | ✅ Safe                 |
-| `/sleep`      | Put the computer into sleep mode              | ⚠️ Power Management     |
-| `/hibernate`  | Put the computer into hibernation mode        | ⚠️ Power Management     |
-| `/shutdown`   | Shut down the system                          | ⚠️ Critical Operation   |
-| `/restart`    | Restart the system                            | ⚠️ Critical Operation   |
-| `/screenshot` | Take and send a screenshot of the desktop     | ⚠️ Privacy              |
+| Command         | Description                                   | Security Level          |
+|-----------------|-----------------------------------------------|-------------------------|
+| `/start`        | Display a list of all available commands      | ✅ Safe                 |
+| `📋 Status`     | Computer name, CPU model, RAM usage, uptime   | ✅ Safe                 |
+| `📸 Screenshot` | Take and send a screenshot of the desktop     | ⚠️ Privacy              |
+| `😴 Sleep`      | Put the computer into sleep mode              | ⚠️ Power Management     |
+| `💤 Hibernate`  | Put the computer into hibernation mode        | ⚠️ Power Management     |
+| `🔴 Shutdown`   | Shut down the system                          | ⚠️ Critical Operation   |
+| `🔄 Restart`    | Restart the system                            | ⚠️ Critical Operation   |
 
 ## 🔒 Security and Privacy
 
@@ -86,7 +86,7 @@ WinControlBot is a powerful Telegram bot that gives you complete remote control 
 
 * **Keep the Bot Token Secret** — Never share it with third parties
 * **Manage Authorized Users** — Only add trusted individuals to the authorized list
-* **Be Aware of Screenshot Risks** — The `/screenshot` command may transmit sensitive information
+* **Be Aware of Screenshot Risks** — The `📸 Screenshot` command may transmit sensitive information
 
 ### 🔐 Recommendations
 
