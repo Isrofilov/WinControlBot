@@ -55,7 +55,6 @@ WinControlBot is a powerful Telegram bot that gives you complete remote control 
 
 ### ⚙️ Initial Setup
 
-<<<<<<< HEAD
 1. **Create a Telegram Bot**
    * Open a chat with [@BotFather](https://t.me/botfather)
    * Send the `/newbot` command and follow the instructions
