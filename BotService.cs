@@ -45,13 +45,13 @@ namespace WinControlBot
             ["en"] = new()
             {
                 ["unauthorized"] = "🚫 You do not have permission to execute this command.\nYour userId is {0}",
-                ["commands"] = "🤖 Available commands:\n\n" +
-                              "ℹ️ /status - Get system status\n" +
-                              "📸 /screenshot - Take a screenshot\n" +
-                              "😴 /sleep - Put the system to sleep\n" +
-                              "💤 /hibernate - Hibernate the system\n" +
-                              "🔴 /shutdown - Shut down the system\n" +
-                              "🔄 /restart - Restart the system\n",
+                ["welcome_message"] = "🤖 Welcome to WinControlBot!\nChoose a command:",
+                ["keyboard_status"] = "📋 Status",
+                ["keyboard_screenshot"] = "📸 Screenshot", 
+                ["keyboard_sleep"] = "😴 Sleep",
+                ["keyboard_hibernate"] = "💤 Hibernate",
+                ["keyboard_shutdown"] = "🔴 Shutdown",
+                ["keyboard_restart"] = "🔄 Restart",
                 ["sleep"] = "😴 The computer will be put to sleep...",
                 ["hibernate"] = "💤 The computer will be hibernated...",
                 ["shutdown"] = "🔴 Shutting down the computer...",
@@ -72,13 +72,13 @@ namespace WinControlBot
             ["ru"] = new()
             {
                 ["unauthorized"] = "🚫 У вас нет прав для выполнения этой команды.\nВаш userId {0}",
-                ["commands"] = "🤖 Доступные команды:\n\n" +
-                              "ℹ️ /status - Получить статус системы\n" +
-                              "📸 /screenshot - Сделать скриншот\n" +
-                              "😴 /sleep - Перевести в режим сна\n" +
-                              "💤 /hibernate - Перевести в режим гибернации\n" +
-                              "🔴 /shutdown - Выключить компьютер\n" +
-                              "🔄 /restart - Перезагрузить компьютер\n",
+                ["welcome_message"] = "🤖 Добро пожаловать в WinControlBot!\nВыберите команду:",
+                ["keyboard_status"] = "📋 Статус",
+                ["keyboard_screenshot"] = "📸 Скриншот",
+                ["keyboard_sleep"] = "😴 Сон", 
+                ["keyboard_hibernate"] = "💤 Гибернация",
+                ["keyboard_shutdown"] = "🔴 Выключить",
+                ["keyboard_restart"] = "🔄 Перезагрузка",
                 ["sleep"] = "😴 Компьютер будет отправлен в режим сна...",
                 ["hibernate"] = "💤 Компьютер будет отправлен в режим гибернации...",
                 ["shutdown"] = "🔴 Выключаю компьютер...",
@@ -87,7 +87,7 @@ namespace WinControlBot
                            "💻 Компьютер: {0}\n" +
                            "⚙️ Процессор: {1}\n" +
                            "💾 ОЗУ: {6:F1} ГБ / {7:F1} ГБ\n" +
-                           "⏱️ Время работы: {2}д {3}ч {4}м {5}с" ,
+                           "⏱️ Время работы: {2}д {3}ч {4}м {5}с",
                 ["retry_request"] = "⚠️ Ваш запрос был отправлен слишком давно. Пожалуйста, повторите запрос.",
                 ["command_executing"] = "⏳ Выполняю команду...",
                 ["error_occurred"] = "❌ Произошла ошибка: {0}",
@@ -302,32 +302,53 @@ namespace WinControlBot
 
         private async Task ExecuteCommandAsync(string text, long chatId, long userId, string languageCode)
         {
+            // Check if it is the /start command or the button text.
             switch (text.ToLowerInvariant())
             {
                 case "/start":
                     await HandleStartCommand(chatId, languageCode);
                     break;
-                case "/status":
-                    await HandleStatusCommand(chatId, userId, languageCode);
-                    break;
-                case "/screenshot":
-                    await HandleScreenshotCommand(chatId, userId, languageCode);
-                    break;
-                case "/sleep":
-                    await HandleAuthorizedCommand(chatId, userId, languageCode, "sleep", "rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
-                    break;
-                case "/hibernate":
-                    await HandleAuthorizedCommand(chatId, userId, languageCode, "hibernate", "rundll32.exe powrprof.dll,SetSuspendState Hibernate");
-                    break;
-                case "/shutdown":
-                    await HandleAuthorizedCommand(chatId, userId, languageCode, "shutdown", "shutdown /s /t 0");
-                    break;
-                case "/restart":
-                    await HandleAuthorizedCommand(chatId, userId, languageCode, "restart", "shutdown /r /t 0");
-                    break;
                 default:
-                    await SendReplyAsync(chatId, "commands", languageCode);
+                    // We check by localized text of buttons
+                    await HandleButtonCommand(text, chatId, userId, languageCode);
                     break;
+            }
+        }
+
+        private async Task HandleButtonCommand(string buttonText, long chatId, long userId, string languageCode)
+        {
+            var lang = languageCode.StartsWith("ru") ? "ru" : "en";
+            var translations = _translations[lang];
+
+            // Matching the button text with the command
+            if (buttonText == translations["keyboard_status"])
+            {
+                await HandleStatusCommand(chatId, userId, languageCode);
+            }
+            else if (buttonText == translations["keyboard_screenshot"])
+            {
+                await HandleScreenshotCommand(chatId, userId, languageCode);
+            }
+            else if (buttonText == translations["keyboard_sleep"])
+            {
+                await HandleAuthorizedCommand(chatId, userId, languageCode, "sleep", "rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
+            }
+            else if (buttonText == translations["keyboard_hibernate"])
+            {
+                await HandleAuthorizedCommand(chatId, userId, languageCode, "hibernate", "rundll32.exe powrprof.dll,SetSuspendState Hibernate");
+            }
+            else if (buttonText == translations["keyboard_shutdown"])
+            {
+                await HandleAuthorizedCommand(chatId, userId, languageCode, "shutdown", "shutdown /s /t 0");
+            }
+            else if (buttonText == translations["keyboard_restart"])
+            {
+                await HandleAuthorizedCommand(chatId, userId, languageCode, "restart", "shutdown /r /t 0");
+            }
+            else
+            {
+                // Unknown command - show keyboard
+                await SendKeyboardMessage(chatId, "welcome_message", languageCode);
             }
         }
 
@@ -340,7 +361,7 @@ namespace WinControlBot
         {
             var lang = languageCode.StartsWith("ru") ? "ru" : "en";
             var translations = _translations[lang];
-            var message = translations.TryGetValue(key, out var value) ? value : translations["commands"];
+            var message = translations.TryGetValue(key, out var value) ? value : translations["welcome_message"];
             return args.Length > 0 ? string.Format(message, args) : message;
         }
 
@@ -348,6 +369,27 @@ namespace WinControlBot
         {
             var message = GetTranslation(languageCode, messageKey, args);
             await SendMessageAsync(chatId, message);
+        }
+
+        private async Task SendKeyboardMessage(long chatId, string messageKey, string languageCode)
+        {
+            var message = GetTranslation(languageCode, messageKey);
+            var lang = languageCode.StartsWith("ru") ? "ru" : "en";
+            var translations = _translations[lang];
+
+            var keyboard = new
+            {
+                keyboard = new[]
+                {
+                    new[] { translations["keyboard_status"], translations["keyboard_screenshot"] },
+                    new[] { translations["keyboard_sleep"], translations["keyboard_hibernate"] },
+                    new[] { translations["keyboard_shutdown"], translations["keyboard_restart"] }
+                },
+                resize_keyboard = true,
+                one_time_keyboard = false
+            };
+
+            await SendMessageWithKeyboardAsync(chatId, message, keyboard);
         }
 
         private async Task SendMessageAsync(long chatId, string text)
@@ -362,6 +404,42 @@ namespace WinControlBot
                         chat_id = chatId,
                         text = text,
                         parse_mode = "HTML"
+                    };
+
+                    var json = JsonSerializer.Serialize(payload);
+                    using var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    using var response = await _httpClient.PostAsync(url, content);
+                    response.EnsureSuccessStatusCode();
+                    return; // Sent successfully
+                }
+                catch (HttpRequestException ex) when (ex.Message.Contains("429") || ex.Message.Contains("Too Many Requests"))
+                {
+                    LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_SendMessageRetry"], RETRY_DELAY_MS));
+                    await Task.Delay(RETRY_DELAY_MS * (retry + 1)); // Exponential delay
+                }
+                catch (Exception ex)
+                {
+                    LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_SendMessageError"], retry + 1, ex.Message));
+                    if (retry < MAX_RETRY_ATTEMPTS - 1)
+                        await Task.Delay(RETRY_DELAY_MS);
+                }
+            }
+        }
+
+        private async Task SendMessageWithKeyboardAsync(long chatId, string text, object replyMarkup)
+        {
+            for (int retry = 0; retry < MAX_RETRY_ATTEMPTS; retry++)
+            {
+                try
+                {
+                    var url = $"https://api.telegram.org/bot{Token}/sendMessage";
+                    var payload = new
+                    {
+                        chat_id = chatId,
+                        text = text,
+                        parse_mode = "HTML",
+                        reply_markup = replyMarkup
                     };
 
                     var json = JsonSerializer.Serialize(payload);
@@ -452,7 +530,7 @@ namespace WinControlBot
 
         private async Task HandleStartCommand(long chatId, string languageCode)
         {
-            await SendReplyAsync(chatId, "commands", languageCode);
+            await SendKeyboardMessage(chatId, "welcome_message", languageCode);
         }
 
         private async Task HandleStatusCommand(long chatId, long userId, string languageCode)
@@ -592,6 +670,7 @@ namespace WinControlBot
 
             return screenshots;
         }
+
         private void ExecuteSystemCommand(string command)
         {
             try
