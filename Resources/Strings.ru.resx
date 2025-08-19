@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Настройки бота</value>
+  </data>
+  <data name="Settings_BotToken" xml:space="preserve">
+    <value>Токен бота:</value>
+  </data>
+  <data name="Settings_AuthorizedUsers" xml:space="preserve">
+    <value>ID пользователей:</value>
+  </data>
+  <data name="Settings_AuthorizedUsers.Tooltip" xml:space="preserve">
+    <value>ID через запятую</value>
+  </data>
+  <data name="Settings_Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Settings_ShowToken" xml:space="preserve">
+    <value>Показать токен</value>
+  </data>
+  <data name="Settings_HideToken" xml:space="preserve">
+    <value>Скрыть токен</value>
+  </data>
+  <data name="Controls_Start" xml:space="preserve">
+    <value>▶️ Запустить</value>
+  </data>
+  <data name="Controls_Stop" xml:space="preserve">
+    <value>⏹️ Остановить</value>
+  </data>
+  <data name="Controls_Restart" xml:space="preserve">
+    <value>🔄 Перезапустить</value>
+  </data>
+  <data name="Controls_Starting" xml:space="preserve">
+    <value>⏳ Запускается...</value>
+  </data>
+  <data name="Controls_Stopping" xml:space="preserve">
+    <value>⏳ Останавливается...</value>
+  </data>
+  <data name="Controls_Restarting" xml:space="preserve">
+    <value>⏳ Перезапускается...</value>
+  </data>
+  <data name="Status_Running" xml:space="preserve">
+    <value>Статус: 🟢 Запущен</value>
+  </data>
+  <data name="Status_Stopped" xml:space="preserve">
+    <value>Статус: 🔴 Остановлен</value>
+  </data>
+  <data name="AutoStart_Enabled" xml:space="preserve">
+    <value>Автозагрузка: Вкл</value>
+  </data>
+  <data name="AutoStart_Disabled" xml:space="preserve">
+    <value>Автозагрузка: Выкл</value>
+  </data>
+  <data name="AutoStart_Tooltip" xml:space="preserve">
+    <value>Переключить автозагрузку</value>
+  </data>
+  <data name="Log_Title" xml:space="preserve">
+    <value>Лог событий</value>
+  </data>
+  <data name="Log_Clear" xml:space="preserve">
+    <value>Очистить лог</value>
+  </data>
+  <data name="Log_Cleared" xml:space="preserve">
+    <value>Лог очищен</value>
+  </data>
+  <data name="Language_Label" xml:space="preserve">
+    <value>Язык:</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>Английский</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="Language_Tooltip" xml:space="preserve">
+    <value>Изменить язык</value>
+  </data>
+  <data name="Tray_Show" xml:space="preserve">
+    <value>Показать окно</value>
+  </data>
+  <data name="Tray_Hide" xml:space="preserve">
+    <value>Скрыть в трей</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Tray_Running" xml:space="preserve">
+    <value>WinControlBot - Запущен</value>
+  </data>
+  <data name="Tray_Stopped" xml:space="preserve">
+    <value>WinControlBot - Остановлен</value>
+  </data>
+  <data name="Tray_Notification.Title" xml:space="preserve">
+    <value>WinControlBot</value>
+  </data>
+  <data name="Tray_Notification.Message" xml:space="preserve">
+    <value>Программа продолжает работать в трее. Дважды кликните по иконке для возврата.</value>
+  </data>
+  <data name="Log_SettingsLoaded" xml:space="preserve">
+    <value>✅ Настройки загружены</value>
+  </data>
+  <data name="Log_SettingsSaved" xml:space="preserve">
+    <value>✅ Настройки сохранены</value>
+  </data>
+  <data name="Log_SettingsSavePath" xml:space="preserve">
+    <value>📁 Путь к настройкам: {0}</value>
+  </data>
+  <data name="Log_TokenSaved" xml:space="preserve">
+    <value>🔑 Токен: {0}...</value>
+  </data>
+  <data name="Log_UsersSaved" xml:space="preserve">
+    <value>👥 Пользователей: {0}</value>
+  </data>
+  <data name="Log_AutoStarting" xml:space="preserve">
+    <value>⏳ Автозапуск бота...</value>
+  </data>
+  <data name="Log_AutoStartSkipped" xml:space="preserve">
+    <value>⚠️ Автозапуск пропущен: нет токена или пользователей</value>
+  </data>
+  <data name="Log_BotStarted" xml:space="preserve">
+    <value>✅ Бот успешно запущен</value>
+  </data>
+  <data name="Log_BotStopped" xml:space="preserve">
+    <value>✅ Бот остановлен</value>
+  </data>
+  <data name="Log_BotRestarted" xml:space="preserve">
+    <value>🔄 Бот перезапущен</value>
+  </data>
+  <data name="Log_ApplicationExit" xml:space="preserve">
+    <value>🔄 Завершение работы приложения...</value>
+  </data>
+  <data name="Log_StoppingBot" xml:space="preserve">
+    <value>⏳ Останавливаем бот...</value>
+  </data>
+  <data name="Log_AutoStartEnabled" xml:space="preserve">
+    <value>✅ Автозагрузка включена</value>
+  </data>
+  <data name="Log_AutoStartDisabled" xml:space="preserve">
+    <value>✅ Автозагрузка отключена</value>
+  </data>
+  <data name="Log_CurrentPath" xml:space="preserve">
+    <value>📁 Текущий путь приложения: {0}</value>
+  </data>
+  <data name="Log_LocalizationInitialized" xml:space="preserve">
+    <value>🌐 Локализация инициализирована</value>
+  </data>
+  <data name="Log_LanguageChanged" xml:space="preserve">
+    <value>🌐 Язык изменен</value>
+  </data>
+  <data name="Error_SettingsLoad" xml:space="preserve">
+    <value>❌ Ошибка загрузки настроек: {0}</value>
+  </data>
+  <data name="Error_SettingsSave" xml:space="preserve">
+    <value>❌ Ошибка сохранения настроек: {0}</value>
+  </data>
+  <data name="Error_BotStart" xml:space="preserve">
+    <value>❌ Ошибка запуска бота: {0}</value>
+  </data>
+  <data name="Error_BotStop" xml:space="preserve">
+    <value>❌ Ошибка остановки бота: {0}</value>
+  </data>
+  <data name="Error_AutoStart" xml:space="preserve">
+    <value>❌ Ошибка автозапуска: {0}</value>
+  </data>
+  <data name="Error_AutoStartChange" xml:space="preserve">
+    <value>❌ Ошибка изменения автозагрузки: {0}</value>
+  </data>
+  <data name="Error_AutoStartStatus" xml:space="preserve">
+    <value>❌ Ошибка обновления статуса автозагрузки: {0}</value>
+  </data>
+  <data name="Error_TrayInit" xml:space="preserve">
+    <value>⚠️ Ошибка инициализации трея: {0}</value>
+  </data>
+  <data name="Error_TrayUpdate" xml:space="preserve">
+    <value>⚠️ Ошибка обновления трея: {0}</value>
+  </data>
+  <data name="Error_TrayCleanup" xml:space="preserve">
+    <value>⚠️ Ошибка очистки трея: {0}</value>
+  </data>
+  <data name="Error_ShowWindow" xml:space="preserve">
+    <value>⚠️ Ошибка показа окна: {0}</value>
+  </data>
+  <data name="Error_HideWindow" xml:space="preserve">
+    <value>⚠️ Ошибка сворачивания в трей: {0}</value>
+  </data>
+  <data name="Error_WindowState" xml:space="preserve">
+    <value>⚠️ Ошибка изменения состояния окна: {0}</value>
+  </data>
+  <data name="Error_TokenToggle" xml:space="preserve">
+    <value>❌ Ошибка переключения видимости токена: {0}</value>
+  </data>
+  <data name="Error_IconLoad" xml:space="preserve">
+    <value>⚠️ Не удалось загрузить иконку: {0}</value>
+  </data>
+  <data name="Error_Exit" xml:space="preserve">
+    <value>❌ Ошибка при завершении: {0}</value>
+  </data>
+  <data name="Error_Closing" xml:space="preserve">
+    <value>❌ Ошибка при закрытии: {0}</value>
+  </data>
+  <data name="Error_Critical" xml:space="preserve">
+    <value>Критическая ошибка: {0}\\n\\nДетали: {1}</value>
+  </data>
+  <data name="Error_Startup" xml:space="preserve">
+    <value>Критическая ошибка при запуске приложения: {0}\\n\\nДетали: {1}</value>
+  </data>
+  <data name="Error_StartupTitle" xml:space="preserve">
+    <value>Ошибка запуска</value>
+  </data>
+  <data name="Error_LanguageSelector" xml:space="preserve">
+    <value>⚠️ Ошибка инициализации выбора языка: {0}</value>
+  </data>
+  <data name="Error_UIUpdate" xml:space="preserve">
+    <value>⚠️ Ошибка обновления UI после смены языка: {0}</value>
+  </data>
+  <data name="Error_LanguageChange" xml:space="preserve">
+    <value>⚠️ Ошибка смены языка: {0}</value>
+  </data>
+  <data name="Validation_EmptyToken" xml:space="preserve">
+    <value>Введите токен бота!</value>
+  </data>
+  <data name="Validation_EmptyUsers" xml:space="preserve">
+    <value>Укажите хотя бы одного авторизованного пользователя!</value>
+  </data>
+  <data name="Validation_EmptyTokenWarning" xml:space="preserve">
+    <value>⚠️ Токен пустой, сохранение отменено</value>
+  </data>
+  <data name="Dialog_Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Dialog_Warning" xml:space="preserve">
+    <value>Предупреждение"</value>
+  </data>
+  <data name="Bot_InvalidToken" xml:space="preserve">
+    <value>❌ Неверный токен бота</value>
+  </data>
+  <data name="Bot_TokenValidationError" xml:space="preserve">
+    <value>❌ Ошибка проверки токена: {0}</value>
+  </data>
+  <data name="Bot_Conflict" xml:space="preserve">
+    <value>⚠️ Конфликт: бот уже запущен в другом месте</value>
+  </data>
+  <data name="Bot_PollingCancelled" xml:space="preserve">
+    <value>ℹ️ Опрос обновлений отменен</value>
+  </data>
+  <data name="Bot_CriticalError" xml:space="preserve">
+    <value>❌ Критическая ошибка: {0}</value>
+  </data>
+  <data name="Bot_PollError" xml:space="preserve">
+    <value>❌ Ошибка polling: {0}</value>
+  </data>
+  <data name="Bot_MessageReceived" xml:space="preserve">
+    <value>📩 Сообщение от {0}: {1}</value>
+  </data>
+  <data name="Bot_UnauthorizedAccess" xml:space="preserve">
+    <value>🚫 Неавторизованная попытка доступа от пользователя {0}</value>
+  </data>
+  <data name="Bot_ExecutingCommand" xml:space="preserve">
+    <value>⚙️ Выполняется команда: {0}</value>
+  </data>
+  <data name="Bot_CommandOutput" xml:space="preserve">
+    <value>📜 Вывод команды: {0}</value>
+  </data>
+  <data name="Bot_CommandError" xml:space="preserve">
+    <value>❌ Ошибка выполнения команды: {0}</value>
+  </data>
+  <data name="Bot_CommandKilled" xml:space="preserve">
+    <value>❌ Команда была принудительно завершена по таймауту</value>
+  </data>
+  <data name="Bot_CommandExitCode" xml:space="preserve">
+    <value>❌ Команда завершилась с кодом ошибки: {0}</value>
+  </data>
+  <data name="Bot_CommandErrorDetails" xml:space="preserve">
+    <value>❌ Детали ошибки: {0}</value>
+  </data>
+  <data name="Bot_CommandExecuted" xml:space="preserve">
+    <value>✅ Выполнена системная команда: {0}</value>
+  </data>
+  <data name="Bot_CommandExecutionError" xml:space="preserve">
+    <value>❌ Ошибка выполнения команды: {0}</value>
+  </data>
+  <data name="Bot_SystemStatusError" xml:space="preserve">
+    <value>❌ Ошибка получения статуса системы: {0}</value>
+  </data>
+  <data name="Bot_ScreenshotsFound" xml:space="preserve">
+    <value>✅ Найдено {0} экранов для скриншота</value>
+  </data>
+  <data name="Bot_AllScreenshotsSent" xml:space="preserve">
+    <value>✅ Все скриншоты отправлены ({0} мониторов)</value>
+  </data>
+  <data name="Bot_SendMessageRetry" xml:space="preserve">
+    <value>⚠️ Слишком много запросов, повтор через{0} мс</value>
+  </data>
+  <data name="Bot_SendMessageError" xml:space="preserve">
+    <value>❌ Ошибка отправки сообщения(попытка{0}): {1}</value>
+  </data>
+  <data name="Bot_SendPhotoError" xml:space="preserve">
+    <value>❌ Ошибка отправки фото (попытка {0}): {1}</value>
+  </data>
+  <data name="Validation_MissingToken" xml:space="preserve">
+    <value>Введите токен бота!</value>
+  </data>
+  <data name="Validation_MissingUsers" xml:space="preserve">
+    <value>Укажите хотя бы одного авторизованного пользователя!</value>
+  </data>
+  <data name="Window_SettingsLoaded" xml:space="preserve">
+    <value>✅ Настройки загружены</value>
+  </data>
+  <data name="Window_SettingsPath" xml:space="preserve">
+    <value>📁 Путь к настройкам: {0}</value>
+  </data>
+  <data name="Window_SettingsSaved" xml:space="preserve">
+    <value>✅ Настройки сохранены</value>
+  </data>
+  <data name="Window_TokenSaved" xml:space="preserve">
+    <value>🔑 Токен: {0}...</value>
+  </data>
+  <data name="Window_UserCount" xml:space="preserve">
+    <value>👥 Пользователей: {0}</value>
+  </data>
+  <data name="Window_EmptyTokenSave" xml:space="preserve">
+    <value>⚠️ Токен пустой, сохранение отменено</value>
+  </data>
+  <data name="Window_AutoStartSkipped" xml:space="preserve">
+    <value>⚠️ Автозапуск пропущен: нет токена или пользователей</value>
+  </data>
+  <data name="Window_BotStopped" xml:space="preserve">
+    <value>✅ Бот остановлен</value>
+  </data>
+  <data name="Window_CurrentPath" xml:space="preserve">
+    <value>📁 Текущий путь приложения: {0}</value>
+  </data>
+  <data name="TrayMenu_Show" xml:space="preserve">
+    <value>Показать окно</value>
+  </data>
+  <data name="TrayMenu_Hide" xml:space="preserve">
+    <value>Скрыть в трей</value>
+  </data>
+  <data name="TrayMenu_Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="TrayMenu_Running" xml:space="preserve">
+    <value>Запущен</value>
+  </data>
+  <data name="TrayMenu_Stopped" xml:space="preserve">
+    <value>Остановлен</value>
+  </data>
+  <data name="Button_Starting" xml:space="preserve">
+    <value>⏳ Запускается...</value>
+  </data>
+  <data name="Button_Stopping" xml:space="preserve">
+    <value>⏳ Останавливается...</value>
+  </data>
+  <data name="Button_Restarting" xml:space="preserve">
+    <value>⏳ Перезапускается...</value>
+  </data>
+  <data name="Button_Start" xml:space="preserve">
+    <value>▶️ Запустить</value>
+  </data>
+  <data name="Button_Stop" xml:space="preserve">
+    <value>⏹️ Остановить</value>
+  </data>
+  <data name="Button_Restart" xml:space="preserve">
+    <value>🔄 Перезапустить</value>
+  </data>
+  <data name="Notification_ContinuesInTray" xml:space="preserve">
+    <value>Программа продолжает работать в трее. Дважды кликните по иконке для возврата</value>
+  </data>
+  <data name="Bot_DisposeError" xml:space="preserve">
+    <value>❌ Ошибка при завершении: {0}</value>
+  </data>
+</root>

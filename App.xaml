@@ -1,0 +1,16 @@
+<Application x:Class="WinControlBot.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- Global application styles -->
+        <SolidColorBrush x:Key="PrimaryColor" Color="#007BFF"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#6C757D"/>
+        <SolidColorBrush x:Key="SuccessColor" Color="#28A745"/>
+        <SolidColorBrush x:Key="DangerColor" Color="#DC3545"/>
+        <SolidColorBrush x:Key="WarningColor" Color="#FFC107"/>
+        <SolidColorBrush x:Key="InfoColor" Color="#17A2B8"/>
+        <SolidColorBrush x:Key="LightColor" Color="#F8F9FA"/>
+        <SolidColorBrush x:Key="DarkColor" Color="#343A40"/>
+    </Application.Resources>
+</Application>
