@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Text.Json;
+using System.Security.Cryptography;
 
 namespace WinControlBot
 {
@@ -8,6 +10,15 @@ namespace WinControlBot
     {
         public string BotToken { get; set; } = "";
         public string AuthorizedUsers { get; set; } = "";
+        public bool AutoStartEnabled { get; set; } = false;
+        public string Language { get; set; } = "";
+    }
+
+    // Class for storing encrypted settings
+    internal class EncryptedSettings
+    {
+        public string EncryptedBotToken { get; set; } = "";
+        public string EncryptedAuthorizedUsers { get; set; } = "";
         public bool AutoStartEnabled { get; set; } = false;
         public string Language { get; set; } = "";
     }
@@ -22,6 +33,9 @@ namespace WinControlBot
         
         private static AppSettings? _currentSettings;
         
+        // Entropy for extra protection
+        private static readonly byte[] AdditionalEntropy = Encoding.UTF8.GetBytes("WinControlBot_2");
+
         public static AppSettings Current
         {
             get
@@ -36,7 +50,6 @@ namespace WinControlBot
 
         static SettingsManager()
         {
-            // Create folder if it does not exist
             if (!Directory.Exists(SettingsFolder))
             {
                 Directory.CreateDirectory(SettingsFolder);
@@ -50,7 +63,15 @@ namespace WinControlBot
                 if (File.Exists(SettingsFile))
                 {
                     string json = File.ReadAllText(SettingsFile);
-                    _currentSettings = JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
+                    var encryptedSettings = JsonSerializer.Deserialize<EncryptedSettings>(json) ?? new EncryptedSettings();
+                    
+                    _currentSettings = new AppSettings
+                    {
+                        BotToken = DecryptString(encryptedSettings.EncryptedBotToken),
+                        AuthorizedUsers = DecryptString(encryptedSettings.EncryptedAuthorizedUsers),
+                        AutoStartEnabled = encryptedSettings.AutoStartEnabled,
+                        Language = encryptedSettings.Language
+                    };
                 }
                 else
                 {
@@ -59,10 +80,8 @@ namespace WinControlBot
             }
             catch (Exception ex)
             {
-                // In case of an error, create default settings
                 _currentSettings = new AppSettings();
-                // Logging the error for debugging
-                System.Diagnostics.Debug.WriteLine($"Ошибка загрузки настроек: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error loading settings: {ex.Message}");
             }
         }
 
@@ -72,20 +91,71 @@ namespace WinControlBot
             {
                 if (_currentSettings == null) return;
 
+                var encryptedSettings = new EncryptedSettings
+                {
+                    EncryptedBotToken = EncryptString(_currentSettings.BotToken),
+                    EncryptedAuthorizedUsers = EncryptString(_currentSettings.AuthorizedUsers),
+                    AutoStartEnabled = _currentSettings.AutoStartEnabled,
+                    Language = _currentSettings.Language
+                };
+
                 var options = new JsonSerializerOptions
                 {
                     WriteIndented = true,
                     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 };
 
-                string json = JsonSerializer.Serialize(_currentSettings, options);
+                string json = JsonSerializer.Serialize(encryptedSettings, options);
                 File.WriteAllText(SettingsFile, json);
             }
             catch (Exception ex)
             {
-                // Logging the error for debugging
-                System.Diagnostics.Debug.WriteLine($"Ошибка сохранения настроек: {ex.Message}");
-                throw; // Pass the exception to the UI for handling
+                System.Diagnostics.Debug.WriteLine($"Error saving settings: {ex.Message}");
+                throw;
+            }
+        }
+
+        private static string EncryptString(string plainText)
+        {
+            if (string.IsNullOrEmpty(plainText))
+                return "";
+
+            try
+            {
+                byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+                byte[] encryptedBytes = ProtectedData.Protect(
+                    plainTextBytes,
+                    AdditionalEntropy,
+                    DataProtectionScope.CurrentUser);
+                
+                return Convert.ToBase64String(encryptedBytes);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Encryption error: {ex.Message}");
+                return plainText; // Return the original text in case of an error
+            }
+        }
+
+        private static string DecryptString(string encryptedText)
+        {
+            if (string.IsNullOrEmpty(encryptedText))
+                return "";
+
+            try
+            {
+                byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
+                byte[] decryptedBytes = ProtectedData.Unprotect(
+                    encryptedBytes,
+                    AdditionalEntropy,
+                    DataProtectionScope.CurrentUser);
+                
+                return Encoding.UTF8.GetString(decryptedBytes);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Decryption error: {ex.Message}");
+                return ""; // Return an empty string if an error occurs
             }
         }
 
@@ -97,6 +167,27 @@ namespace WinControlBot
         public static string GetSettingsFilePath()
         {
             return SettingsFile;
+        }
+
+        // Method to check if settings are already encrypted
+        public static bool AreSettingsEncrypted()
+        {
+            try
+            {
+                if (!File.Exists(SettingsFile))
+                    return false;
+
+                string json = File.ReadAllText(SettingsFile);
+                var encryptedSettings = JsonSerializer.Deserialize<EncryptedSettings>(json);
+                
+                // Check if there are encrypted fields
+                return !string.IsNullOrEmpty(encryptedSettings?.EncryptedBotToken) ||
+                       !string.IsNullOrEmpty(encryptedSettings?.EncryptedAuthorizedUsers);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

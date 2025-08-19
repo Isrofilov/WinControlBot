@@ -104,7 +104,7 @@ namespace WinControlBot
             {
                 Timeout = TimeSpan.FromSeconds(REQUEST_TIMEOUT_SECONDS + 10)
             };
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", "WinControlBot/2.0");
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "WinControlBot/2");
         }
 
         public async Task<bool> StartAsync()
