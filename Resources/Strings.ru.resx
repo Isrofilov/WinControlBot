@@ -486,4 +486,70 @@
   <data name="Bot_DisposeError" xml:space="preserve">
     <value>❌ Ошибка при завершении: {0}</value>
   </data>
+  <data name="Bot_Unauthorized" xml:space="preserve">
+    <value>🚫 У вас нет прав для выполнения этой команды.
+Ваш userId {0}</value>
+  </data>
+  <data name="Bot_Welcome_Message" xml:space="preserve">
+    <value>🤖 Добро пожаловать в WinControlBot!
+Выберите команду:</value>
+  </data>
+  <data name="Bot_Keyboard_Status" xml:space="preserve">
+    <value>📋 Статус</value>
+  </data>
+  <data name="Bot_Keyboard_Screenshot" xml:space="preserve">
+    <value>📸 Скриншот</value>
+  </data>
+  <data name="Bot_Keyboard_Sleep" xml:space="preserve">
+    <value>😴 Сон</value>
+  </data>
+  <data name="Bot_Keyboard_Hibernate" xml:space="preserve">
+    <value>💤 Гибернация</value>
+  </data>
+  <data name="Bot_Keyboard_Shutdown" xml:space="preserve">
+    <value>🔴 Выключить</value>
+  </data>
+  <data name="Bot_Keyboard_Restart" xml:space="preserve">
+    <value>🔄 Перезагрузка</value>
+  </data>
+  <data name="Bot_Sleep" xml:space="preserve">
+    <value>😴 Компьютер будет отправлен в режим сна...</value>
+  </data>
+  <data name="Bot_Hibernate" xml:space="preserve">
+    <value>💤 Компьютер будет отправлен в режим гибернации...</value>
+  </data>
+  <data name="Bot_Shutdown" xml:space="preserve">
+    <value>🔴 Выключаю компьютер...</value>
+  </data>
+  <data name="Bot_Restart" xml:space="preserve">
+    <value>🔄 Перезагружаю компьютер...</value>
+  </data>
+  <data name="Bot_Status" xml:space="preserve">
+    <value>🖥️ Статус системы:
+💻 Компьютер: {0}
+⚙️ Процессор: {1}
+💾 ОЗУ: {6:F1} ГБ / {7:F0} ГБ
+⏱️ Время работы: {2}д {3}ч {4}м {5}с</value>
+  </data>
+  <data name="Bot_Retry_Request" xml:space="preserve">
+    <value>⚠️ Запрос устарел. Пожалуйста, отправьте его снова.</value>
+  </data>
+  <data name="Bot_Command_Executing" xml:space="preserve">
+    <value>⏳ Выполняю команду...</value>
+  </data>
+  <data name="Bot_Error_Occurred" xml:space="preserve">
+    <value>❌ Произошла ошибка: {0}</value>
+  </data>
+  <data name="Bot_Screenshot_Taken" xml:space="preserve">
+    <value>📸 Скриншот сделан</value>
+  </data>
+  <data name="Bot_Screenshot_Error" xml:space="preserve">
+    <value>❌ Не удалось сделать скриншот: {0}</value>
+  </data>
+  <data name="Bot_File_Too_Large" xml:space="preserve">
+    <value>❌ Файл скриншота слишком большой для отправки ({0:F1} МБ). Максимальный размер: {1} МБ</value>
+  </data>
+  <data name="Bot_Screenshot_Monitor" xml:space="preserve">
+    <value>📸 Скриншот {0} из {1}</value>
+  </data>
 </root>

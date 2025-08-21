@@ -97,6 +97,15 @@ namespace WinControlBot.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ⏳ Executing command....
+        /// </summary>
+        public static string Bot_Command_Executing {
+            get {
+                return ResourceManager.GetString("Bot_Command_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ❌ Command error: {0}.
         /// </summary>
         public static string Bot_CommandError {
@@ -187,6 +196,15 @@ namespace WinControlBot.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ❌ An error occurred: {0}.
+        /// </summary>
+        public static string Bot_Error_Occurred {
+            get {
+                return ResourceManager.GetString("Bot_Error_Occurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ⚙️ Executing command: {0}.
         /// </summary>
         public static string Bot_ExecutingCommand {
@@ -196,11 +214,83 @@ namespace WinControlBot.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ❌ Screenshot file is too large to send ({0:F1} MB). Maximum size: {1} MB.
+        /// </summary>
+        public static string Bot_File_Too_Large {
+            get {
+                return ResourceManager.GetString("Bot_File_Too_Large", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 💤 The computer will be hibernated....
+        /// </summary>
+        public static string Bot_Hibernate {
+            get {
+                return ResourceManager.GetString("Bot_Hibernate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ❌ Invalid bot token.
         /// </summary>
         public static string Bot_InvalidToken {
             get {
                 return ResourceManager.GetString("Bot_InvalidToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 💤 Hibernate.
+        /// </summary>
+        public static string Bot_Keyboard_Hibernate {
+            get {
+                return ResourceManager.GetString("Bot_Keyboard_Hibernate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 🔄 Restart.
+        /// </summary>
+        public static string Bot_Keyboard_Restart {
+            get {
+                return ResourceManager.GetString("Bot_Keyboard_Restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 📸 Screenshot.
+        /// </summary>
+        public static string Bot_Keyboard_Screenshot {
+            get {
+                return ResourceManager.GetString("Bot_Keyboard_Screenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Keyboard_Shutdown.
+        /// </summary>
+        public static string Bot_Keyboard_Shutdown {
+            get {
+                return ResourceManager.GetString("Bot_Keyboard_Shutdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 😴 Sleep.
+        /// </summary>
+        public static string Bot_Keyboard_Sleep {
+            get {
+                return ResourceManager.GetString("Bot_Keyboard_Sleep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 📋 Status.
+        /// </summary>
+        public static string Bot_Keyboard_Status {
+            get {
+                return ResourceManager.GetString("Bot_Keyboard_Status", resourceCulture);
             }
         }
         
@@ -228,6 +318,51 @@ namespace WinControlBot.Resources {
         public static string Bot_PollingCancelled {
             get {
                 return ResourceManager.GetString("Bot_PollingCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 🔄 Restarting the computer....
+        /// </summary>
+        public static string Bot_Restart {
+            get {
+                return ResourceManager.GetString("Bot_Restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ⚠️ The request is outdated. Please send it again..
+        /// </summary>
+        public static string Bot_Retry_Request {
+            get {
+                return ResourceManager.GetString("Bot_Retry_Request", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ❌ Failed to take screenshot: {0}.
+        /// </summary>
+        public static string Bot_Screenshot_Error {
+            get {
+                return ResourceManager.GetString("Bot_Screenshot_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 📸 Screenshot {0} of {1}.
+        /// </summary>
+        public static string Bot_Screenshot_Monitor {
+            get {
+                return ResourceManager.GetString("Bot_Screenshot_Monitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 📸 Screenshot taken.
+        /// </summary>
+        public static string Bot_Screenshot_Taken {
+            get {
+                return ResourceManager.GetString("Bot_Screenshot_Taken", resourceCulture);
             }
         }
         
@@ -268,6 +403,37 @@ namespace WinControlBot.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на 🔴 Shutting down the computer....
+        /// </summary>
+        public static string Bot_Shutdown {
+            get {
+                return ResourceManager.GetString("Bot_Shutdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 😴 The computer will be put to sleep....
+        /// </summary>
+        public static string Bot_Sleep {
+            get {
+                return ResourceManager.GetString("Bot_Sleep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 🖥️ System Status:
+        ///💻 Computer: {0}
+        ///⚙️ Processor: {1}
+        ///💾 RAM: {6:F1} GB / {7:F0} GB
+        ///⏱️ Uptime: {2}d {3}h {4}m {5}s.
+        /// </summary>
+        public static string Bot_Status {
+            get {
+                return ResourceManager.GetString("Bot_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ❌ System status error: {0}.
         /// </summary>
         public static string Bot_SystemStatusError {
@@ -286,11 +452,31 @@ namespace WinControlBot.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на 🚫 You do not have permission to execute this command.
+        ///Your userId is {0}.
+        /// </summary>
+        public static string Bot_Unauthorized {
+            get {
+                return ResourceManager.GetString("Bot_Unauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на 🚫 Unauthorized access attempt from user {0}.
         /// </summary>
         public static string Bot_UnauthorizedAccess {
             get {
                 return ResourceManager.GetString("Bot_UnauthorizedAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 🤖 Welcome to WinControlBot!
+        ///Choose a command:.
+        /// </summary>
+        public static string Bot_Welcome_Message {
+            get {
+                return ResourceManager.GetString("Bot_Welcome_Message", resourceCulture);
             }
         }
         

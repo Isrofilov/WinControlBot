@@ -486,4 +486,70 @@
   <data name="Bot_DisposeError" xml:space="preserve">
     <value>❌ Error during disposal: {0}</value>
   </data>
+  <data name="Bot_Unauthorized" xml:space="preserve">
+    <value>🚫 You do not have permission to execute this command.
+Your userId is {0}</value>
+  </data>
+  <data name="Bot_Welcome_Message" xml:space="preserve">
+    <value>🤖 Welcome to WinControlBot!
+Choose a command:</value>
+  </data>
+  <data name="Bot_Keyboard_Status" xml:space="preserve">
+    <value>📋 Status</value>
+  </data>
+  <data name="Bot_Keyboard_Screenshot" xml:space="preserve">
+    <value>📸 Screenshot</value>
+  </data>
+  <data name="Bot_Keyboard_Sleep" xml:space="preserve">
+    <value>😴 Sleep</value>
+  </data>
+  <data name="Bot_Keyboard_Hibernate" xml:space="preserve">
+    <value>💤 Hibernate</value>
+  </data>
+  <data name="Bot_Keyboard_Shutdown" xml:space="preserve">
+    <value>Keyboard_Shutdown</value>
+  </data>
+  <data name="Bot_Keyboard_Restart" xml:space="preserve">
+    <value>🔄 Restart</value>
+  </data>
+  <data name="Bot_Sleep" xml:space="preserve">
+    <value>😴 The computer will be put to sleep...</value>
+  </data>
+  <data name="Bot_Hibernate" xml:space="preserve">
+    <value>💤 The computer will be hibernated...</value>
+  </data>
+  <data name="Bot_Shutdown" xml:space="preserve">
+    <value>🔴 Shutting down the computer...</value>
+  </data>
+  <data name="Bot_Restart" xml:space="preserve">
+    <value>🔄 Restarting the computer...</value>
+  </data>
+  <data name="Bot_Status" xml:space="preserve">
+    <value>🖥️ System Status:
+💻 Computer: {0}
+⚙️ Processor: {1}
+💾 RAM: {6:F1} GB / {7:F0} GB
+⏱️ Uptime: {2}d {3}h {4}m {5}s</value>
+  </data>
+  <data name="Bot_Retry_Request" xml:space="preserve">
+    <value>⚠️ The request is outdated. Please send it again.</value>
+  </data>
+  <data name="Bot_Command_Executing" xml:space="preserve">
+    <value>⏳ Executing command...</value>
+  </data>
+  <data name="Bot_Error_Occurred" xml:space="preserve">
+    <value>❌ An error occurred: {0}</value>
+  </data>
+  <data name="Bot_Screenshot_Taken" xml:space="preserve">
+    <value>📸 Screenshot taken</value>
+  </data>
+  <data name="Bot_Screenshot_Error" xml:space="preserve">
+    <value>❌ Failed to take screenshot: {0}</value>
+  </data>
+  <data name="Bot_File_Too_Large" xml:space="preserve">
+    <value>❌ Screenshot file is too large to send ({0:F1} MB). Maximum size: {1} MB</value>
+  </data>
+  <data name="Bot_Screenshot_Monitor" xml:space="preserve">
+    <value>📸 Screenshot {0} of {1}</value>
+  </data>
 </root>

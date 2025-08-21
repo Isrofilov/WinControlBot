@@ -23,7 +23,7 @@ namespace WinControlBot
         private const int REQUEST_TIMEOUT_SECONDS = 30;
         private const int MAX_RETRY_ATTEMPTS = 3;
         private const int RETRY_DELAY_MS = 1000;
-        private const long MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB - Telegram limit
+        private const long MAX_FILE_SIZE = 50 * 1024 * 1024; // 10MB - Telegram limit
 
         // WinAPI for getting DPI
         [DllImport("gdi32.dll")]
@@ -39,64 +39,6 @@ namespace WinControlBot
 
         public event Action<string>? LogReceived;
         public event Action<bool>? StatusChanged;
-
-        private static readonly Dictionary<string, Dictionary<string, string>> _translations = new()
-        {
-            ["en"] = new()
-            {
-                ["unauthorized"] = "🚫 You do not have permission to execute this command.\nYour userId is {0}",
-                ["welcome_message"] = "🤖 Welcome to WinControlBot!\nChoose a command:",
-                ["keyboard_status"] = "📋 Status",
-                ["keyboard_screenshot"] = "📸 Screenshot", 
-                ["keyboard_sleep"] = "😴 Sleep",
-                ["keyboard_hibernate"] = "💤 Hibernate",
-                ["keyboard_shutdown"] = "🔴 Shutdown",
-                ["keyboard_restart"] = "🔄 Restart",
-                ["sleep"] = "😴 The computer will be put to sleep...",
-                ["hibernate"] = "💤 The computer will be hibernated...",
-                ["shutdown"] = "🔴 Shutting down the computer...",
-                ["restart"] = "🔄 Restarting the computer...",
-                ["status"] = "🖥️ System Status:\n" +
-                           "💻 Computer: {0}\n" +
-                           "⚙️ Processor: {1}\n" +
-                           "💾 RAM: {6:F1} GB / {7:F1} GB\n" +
-                           "⏱️ Uptime: {2}d {3}h {4}m {5}s",
-                ["retry_request"] = "⚠️ Your request was sent too long ago. Please repeat the request.",
-                ["command_executing"] = "⏳ Executing command...",
-                ["error_occurred"] = "❌ An error occurred: {0}",
-                ["screenshot_taken"] = "📸 Screenshot taken",
-                ["screenshot_error"] = "❌ Failed to take screenshot: {0}",
-                ["file_too_large"] = "❌ Screenshot file is too large to send ({0:F1} MB). Maximum size: {1} MB",
-                ["screenshot_monitor"] = "📸 Screenshot {0} of {1}"
-            },
-            ["ru"] = new()
-            {
-                ["unauthorized"] = "🚫 У вас нет прав для выполнения этой команды.\nВаш userId {0}",
-                ["welcome_message"] = "🤖 Добро пожаловать в WinControlBot!\nВыберите команду:",
-                ["keyboard_status"] = "📋 Статус",
-                ["keyboard_screenshot"] = "📸 Скриншот",
-                ["keyboard_sleep"] = "😴 Сон", 
-                ["keyboard_hibernate"] = "💤 Гибернация",
-                ["keyboard_shutdown"] = "🔴 Выключить",
-                ["keyboard_restart"] = "🔄 Перезагрузка",
-                ["sleep"] = "😴 Компьютер будет отправлен в режим сна...",
-                ["hibernate"] = "💤 Компьютер будет отправлен в режим гибернации...",
-                ["shutdown"] = "🔴 Выключаю компьютер...",
-                ["restart"] = "🔄 Перезагружаю компьютер...",
-                ["status"] = "🖥️ Статус системы:\n" +
-                           "💻 Компьютер: {0}\n" +
-                           "⚙️ Процессор: {1}\n" +
-                           "💾 ОЗУ: {6:F1} ГБ / {7:F1} ГБ\n" +
-                           "⏱️ Время работы: {2}д {3}ч {4}м {5}с",
-                ["retry_request"] = "⚠️ Ваш запрос был отправлен слишком давно. Пожалуйста, повторите запрос.",
-                ["command_executing"] = "⏳ Выполняю команду...",
-                ["error_occurred"] = "❌ Произошла ошибка: {0}",
-                ["screenshot_taken"] = "📸 Скриншот сделан",
-                ["screenshot_error"] = "❌ Не удалось сделать скриншот: {0}",
-                ["file_too_large"] = "❌ Файл скриншота слишком большой для отправки ({0:F1} МБ). Максимальный размер: {1} МБ",
-                ["screenshot_monitor"] = "📸 Скриншот {0} из {1}"
-            }
-        };
 
         public BotService()
         {
@@ -244,12 +186,12 @@ namespace WinControlBot
 
         private async Task ProcessMessageAsync(JsonElement message)
         {
-            if (!TryExtractMessageData(message, out var chatId, out var userId, out var text, out var languageCode))
+            if (!TryExtractMessageData(message, out var chatId, out var userId, out var text))
                 return;
 
             if (IsMessageTooOld(message))
             {
-                await SendReplyAsync(chatId, "retry_request", languageCode);
+                await SendMessageAsync(chatId, LocalizationManager.Instance["Bot_Retry_Request"]);
                 return;
             }
 
@@ -258,7 +200,7 @@ namespace WinControlBot
             await _commandSemaphore.WaitAsync();
             try
             {
-                await ExecuteCommandAsync(text, chatId, userId, languageCode);
+                await ExecuteCommandAsync(text, chatId, userId);
             }
             finally
             {
@@ -266,12 +208,11 @@ namespace WinControlBot
             }
         }
 
-        private static bool TryExtractMessageData(JsonElement message, out long chatId, out long userId, out string text, out string languageCode)
+        private static bool TryExtractMessageData(JsonElement message, out long chatId, out long userId, out string text)
         {
             chatId = 0;
             userId = 0;
             text = "";
-            languageCode = "en";
 
             if (!message.TryGetProperty("chat", out var chat) ||
                 !chat.TryGetProperty("id", out var chatIdElem) ||
@@ -285,7 +226,6 @@ namespace WinControlBot
             chatId = chatIdElem.GetInt64();
             userId = userIdElem.GetInt64();
             text = textElem.GetString() ?? "";
-            languageCode = from.TryGetProperty("language_code", out var lang) ? lang.GetString() ?? "en" : "en";
 
             return true;
         }
@@ -300,96 +240,59 @@ namespace WinControlBot
             return false;
         }
 
-        private async Task ExecuteCommandAsync(string text, long chatId, long userId, string languageCode)
+        private async Task ExecuteCommandAsync(string text, long chatId, long userId)
         {
             // Check if it is the /start command or the button text.
             switch (text.ToLowerInvariant())
             {
                 case "/start":
-                    await HandleStartCommand(chatId, languageCode);
+                    await SendKeyboardMessage(chatId);
                     break;
                 default:
                     // We check by localized text of buttons
-                    await HandleButtonCommand(text, chatId, userId, languageCode);
+                    await HandleButtonCommand(text, chatId, userId);
                     break;
             }
         }
 
-        private async Task HandleButtonCommand(string buttonText, long chatId, long userId, string languageCode)
+        private async Task HandleButtonCommand(string buttonText, long chatId, long userId)
         {
-            var lang = languageCode.StartsWith("ru") ? "ru" : "en";
-            var translations = _translations[lang];
 
             // Matching the button text with the command
-            if (buttonText == translations["keyboard_status"])
+            if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Status"])
             {
-                await HandleStatusCommand(chatId, userId, languageCode);
+                await HandleStatusCommand(chatId, userId);
             }
-            else if (buttonText == translations["keyboard_screenshot"])
+            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Screenshot"])
             {
-                await HandleScreenshotCommand(chatId, userId, languageCode);
+                await HandleScreenshotCommand(chatId, userId);
             }
-            else if (buttonText == translations["keyboard_sleep"])
+            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Sleep"])
             {
-                await HandleAuthorizedCommand(chatId, userId, languageCode, "sleep", "rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
+                await HandleAuthorizedCommand(chatId, userId, "Bot_Sleep", "rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
             }
-            else if (buttonText == translations["keyboard_hibernate"])
+            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Hibernate"])
             {
-                await HandleAuthorizedCommand(chatId, userId, languageCode, "hibernate", "rundll32.exe powrprof.dll,SetSuspendState Hibernate");
+                await HandleAuthorizedCommand(chatId, userId, "Bot_Hibernate", "rundll32.exe powrprof.dll,SetSuspendState Hibernate");
             }
-            else if (buttonText == translations["keyboard_shutdown"])
+            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Shutdown"])
             {
-                await HandleAuthorizedCommand(chatId, userId, languageCode, "shutdown", "shutdown /s /t 0");
+                await HandleAuthorizedCommand(chatId, userId, "Bot_Shutdown", "shutdown /s /t 0");
             }
-            else if (buttonText == translations["keyboard_restart"])
+            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Restart"])
             {
-                await HandleAuthorizedCommand(chatId, userId, languageCode, "restart", "shutdown /r /t 0");
+                await HandleAuthorizedCommand(chatId, userId, "Bot_Restart", "shutdown /r /t 0");
             }
             else
             {
                 // Unknown command - show keyboard
-                await SendKeyboardMessage(chatId, "welcome_message", languageCode);
+                await SendKeyboardMessage(chatId);
             }
         }
 
         private bool IsUserAuthorized(long userId)
         {
             return AuthorizedUsers.Contains(userId);
-        }
-
-        private string GetTranslation(string languageCode, string key, params object[] args)
-        {
-            var lang = languageCode.StartsWith("ru") ? "ru" : "en";
-            var translations = _translations[lang];
-            var message = translations.TryGetValue(key, out var value) ? value : translations["welcome_message"];
-            return args.Length > 0 ? string.Format(message, args) : message;
-        }
-
-        private async Task SendReplyAsync(long chatId, string messageKey, string languageCode, params object[] args)
-        {
-            var message = GetTranslation(languageCode, messageKey, args);
-            await SendMessageAsync(chatId, message);
-        }
-
-        private async Task SendKeyboardMessage(long chatId, string messageKey, string languageCode)
-        {
-            var message = GetTranslation(languageCode, messageKey);
-            var lang = languageCode.StartsWith("ru") ? "ru" : "en";
-            var translations = _translations[lang];
-
-            var keyboard = new
-            {
-                keyboard = new[]
-                {
-                    new[] { translations["keyboard_status"], translations["keyboard_screenshot"] },
-                    new[] { translations["keyboard_sleep"], translations["keyboard_hibernate"] },
-                    new[] { translations["keyboard_shutdown"], translations["keyboard_restart"] }
-                },
-                resize_keyboard = true,
-                one_time_keyboard = false
-            };
-
-            await SendMessageWithKeyboardAsync(chatId, message, keyboard);
         }
 
         private async Task SendMessageAsync(long chatId, string text)
@@ -425,6 +328,23 @@ namespace WinControlBot
                         await Task.Delay(RETRY_DELAY_MS);
                 }
             }
+        }
+
+        private async Task SendKeyboardMessage(long chatId)
+        {
+            var keyboard = new
+            {
+                keyboard = new[]
+                {
+                    new[] { LocalizationManager.Instance["Bot_Keyboard_Status"], LocalizationManager.Instance["Bot_Keyboard_Screenshot"] },
+                    new[] { LocalizationManager.Instance["Bot_Keyboard_Sleep"], LocalizationManager.Instance["Bot_Keyboard_Hibernate"] },
+                    new[] { LocalizationManager.Instance["Bot_Keyboard_Shutdown"], LocalizationManager.Instance["Bot_Keyboard_Restart"] }
+                },
+                resize_keyboard = true,
+                one_time_keyboard = false
+            };
+
+            await SendMessageWithKeyboardAsync(chatId, LocalizationManager.Instance["Bot_Welcome_Message"], keyboard);
         }
 
         private async Task SendMessageWithKeyboardAsync(long chatId, string text, object replyMarkup)
@@ -499,21 +419,21 @@ namespace WinControlBot
             }
         }
 
-        private async Task HandleAuthorizedCommand(long chatId, long userId, string languageCode, string messageKey, string? systemCommand = null)
+        private async Task HandleAuthorizedCommand(long chatId, long userId, string messageKey, string? systemCommand = null)
         {
             if (!IsUserAuthorized(userId))
             {
-                await SendReplyAsync(chatId, "unauthorized", languageCode, userId);
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Unauthorized"], userId));
                 LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_UnauthorizedAccess"], userId));
                 return;
             }
 
-            await SendReplyAsync(chatId, "command_executing", languageCode);
+            await SendMessageAsync(chatId, LocalizationManager.Instance["Bot_Command_Executing"]);
             LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_ExecutingCommand"], messageKey));
 
             try
             {
-                await SendReplyAsync(chatId, messageKey, languageCode);
+                await SendMessageAsync(chatId, messageKey);
                 
                 if (!string.IsNullOrEmpty(systemCommand))
                 {
@@ -523,28 +443,24 @@ namespace WinControlBot
             }
             catch (Exception ex)
             {
-                await SendReplyAsync(chatId, "error_occurred", languageCode, ex.Message);
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Error_Occurred"], ex.Message));
                 LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_CommandExecutionError"], messageKey, ex.Message));
             }
         }
 
-        private async Task HandleStartCommand(long chatId, string languageCode)
-        {
-            await SendKeyboardMessage(chatId, "welcome_message", languageCode);
-        }
-
-        private async Task HandleStatusCommand(long chatId, long userId, string languageCode)
+        private async Task HandleStatusCommand(long chatId, long userId)
         {
             if (!IsUserAuthorized(userId))
             {
-                await SendReplyAsync(chatId, "unauthorized", languageCode, userId);
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Unauthorized"], userId));
+                LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_UnauthorizedAccess"], userId));
                 return;
             }
 
             try
             {
                 var status = GetSystemStatus();
-                await SendReplyAsync(chatId, "status", languageCode, 
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Status"], 
                     status.ComputerName, 
                     status.ProcessorName,
                     status.Uptime.Days, 
@@ -552,24 +468,25 @@ namespace WinControlBot
                     status.Uptime.Minutes, 
                     status.Uptime.Seconds,
                     status.UsedRamGB,
-                    status.TotalRamGB);
+                    status.TotalRamGB));
             }
             catch (Exception ex)
             {
-                await SendReplyAsync(chatId, "error_occurred", languageCode, ex.Message);
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Error_Occurred"], ex.Message));
                 LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_SystemStatusError"], ex.Message));
             }
         }
 
-        private async Task HandleScreenshotCommand(long chatId, long userId, string languageCode)
+        private async Task HandleScreenshotCommand(long chatId, long userId)
         {
             if (!IsUserAuthorized(userId))
             {
-                await SendReplyAsync(chatId, "unauthorized", languageCode, userId);
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Unauthorized"], userId));
+                LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_UnauthorizedAccess"], userId));
                 return;
             }
 
-            await SendReplyAsync(chatId, "command_executing", languageCode);
+            await SendMessageAsync(chatId, LocalizationManager.Instance["Bot_Command_Executing"]);
             LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_ExecutingCommand"], "screenshot"));
 
             try
@@ -578,37 +495,54 @@ namespace WinControlBot
 
                 if (screenshots.Count == 0)
                 {
-                    await SendReplyAsync(chatId, "screenshot_error", languageCode, "No screens found");
+                    await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Screenshot_Error"], "No screens found"));
                     return;
                 }
 
                 LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_ScreenshotsFound"], screenshots.Count));
 
-                for (int i = 0; i < screenshots.Count; i++)
+                if (screenshots.Count == 1)
                 {
-                    var screenshotData = screenshots[i];
-
-                    // Проверяем размер файла
+                    var screenshotData = screenshots[0];
+                    
+                    // Проверка размера файла
                     var fileSizeMB = screenshotData.Length / 1024.0 / 1024.0;
                     if (screenshotData.Length > MAX_FILE_SIZE)
                     {
-                        await SendReplyAsync(chatId, "file_too_large", languageCode, fileSizeMB, MAX_FILE_SIZE / 1024.0 / 1024.0);
-                        continue;
+                        await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_File_Too_Large"], fileSizeMB, MAX_FILE_SIZE / 1024.0 / 1024.0));
+                        return;
                     }
+                    
+                    await SendPhotoAsync(chatId, screenshotData, LocalizationManager.Instance["Bot_Screenshot_Taken"]);
+                }
+                else
+                {
+                    // Several screens - we send with numbering
+                    for (int i = 0; i < screenshots.Count; i++)
+                    {
+                        var screenshotData = screenshots[i];
 
-                    var caption = GetTranslation(languageCode, "screenshot_monitor", i + 1, screenshots.Count);
-                    await SendPhotoAsync(chatId, screenshotData, caption);
+                        // Check file size
+                        var fileSizeMB = screenshotData.Length / 1024.0 / 1024.0;
+                        if (screenshotData.Length > MAX_FILE_SIZE)
+                        {
+                            await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_File_Too_Large"], fileSizeMB, MAX_FILE_SIZE / 1024.0 / 1024.0));
+                            continue;
+                        }
 
-                    // There is a slight delay between sending screenshots
-                    if (i < screenshots.Count - 1)
-                        await Task.Delay(500);
+                        var caption = string.Format(LocalizationManager.Instance["Bot_Screenshot_Monitor"], i + 1, screenshots.Count);
+                        await SendPhotoAsync(chatId, screenshotData, caption);
+
+                        if (i < screenshots.Count - 1)
+                            await Task.Delay(500);
+                    }
                 }
 
                 LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_AllScreenshotsSent"], screenshots.Count));
             }
             catch (Exception ex)
             {
-                await SendReplyAsync(chatId, "screenshot_error", languageCode, ex.Message);
+                await SendMessageAsync(chatId, string.Format(LocalizationManager.Instance["Bot_Screenshot_Error"], ex.Message));
                 LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_CommandExecutionError"], ex.Message));
             }
         }
@@ -617,55 +551,19 @@ namespace WinControlBot
         {
             var screenshots = new List<byte[]>();
 
-            try
+            foreach (var screen in Screen.AllScreens.OrderBy(s => s.Bounds.X))
             {
-                var screens = Screen.AllScreens.OrderBy(s => s.Bounds.X).ToArray();
-
-                foreach (var screen in screens)
-                {
-                    var bounds = screen.Bounds;
-
-                    // Create a bitmap taking into account the screen DPI
-                    using var bitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
-                    using var graphics = Graphics.FromImage(bitmap);
-
-                    // Setting DPI for correct rendering
-                    var hdc = graphics.GetHdc();
-                    try
-                    {
-                        // Getting screen DPI via WinAPI
-                        var dpiX = GetDeviceCaps(hdc, 88); // LOGPIXELSX
-                        var dpiY = GetDeviceCaps(hdc, 90); // LOGPIXELSY
-                        bitmap.SetResolution(dpiX, dpiY);
-                    }
-                    finally
-                    {
-                        graphics.ReleaseHdc(hdc);
-                    }
-
-                    // Setting up rendering quality
-                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-
-                    // We capture the screen taking into account its position
-                    graphics.CopyFromScreen(bounds.X, bounds.Y, 0, 0, bounds.Size, CopyPixelOperation.SourceCopy);
-
-                    using var stream = new MemoryStream();
-
-                    // Optimized JPEG settings
-                    var quality = Math.Min(95, 100 - (bounds.Width * bounds.Height / 1000000));
-                    var encoder = ImageCodecInfo.GetImageDecoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
-                    var encoderParams = new EncoderParameters(1);
-                    encoderParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
-
-                    bitmap.Save(stream, encoder, encoderParams);
-                    screenshots.Add(stream.ToArray());
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Failed to take screenshots: {ex.Message}", ex);
+                var bounds = screen.Bounds;
+                
+                using var bitmap = new Bitmap(bounds.Width, bounds.Height);
+                using var graphics = Graphics.FromImage(bitmap);
+                
+                graphics.CopyFromScreen(bounds.X, bounds.Y, 0, 0, bounds.Size);
+                
+                using var stream = new MemoryStream();
+                bitmap.Save(stream, ImageFormat.Jpeg);
+                
+                screenshots.Add(stream.ToArray());
             }
 
             return screenshots;
@@ -782,32 +680,6 @@ namespace WinControlBot
             }
 
             return (computerName, processorName, uptime, Math.Round(usedRamGB, 1), Math.Round(totalRamGB, 1));
-        }
-
-        private static byte[] TakeScreenshot()
-        {
-            try
-            {
-                var bounds = Screen.PrimaryScreen.Bounds;
-                using var bitmap = new Bitmap(bounds.Width, bounds.Height);
-                using var graphics = Graphics.FromImage(bitmap);
-                
-                graphics.CopyFromScreen(0, 0, 0, 0, bitmap.Size);
-                
-                using var stream = new MemoryStream();
-                
-                // Using JPEG to Reduce File Size
-                var encoder = ImageCodecInfo.GetImageDecoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
-                var encoderParams = new EncoderParameters(1);
-                encoderParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 85L);
-                
-                bitmap.Save(stream, encoder, encoderParams);
-                return stream.ToArray();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Failed to take screenshot: {ex.Message}", ex);
-            }
         }
 
         public void Dispose()
