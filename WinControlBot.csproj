@@ -11,6 +11,7 @@
     <Platforms>x64</Platforms>
     <StartupObject>WinControlBot.Program</StartupObject>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <NoWarn>CA1416</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
