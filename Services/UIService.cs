@@ -9,6 +9,8 @@ namespace WinControlBot.Services
 {
     public class UIService
     {
+        private const int MAX_LOG_LINES = 1000;
+
         private readonly MainWindow _window;
 
         public UIService(MainWindow window)
@@ -192,6 +194,13 @@ namespace WinControlBot.Services
             {
                 var timestamp = DateTime.Now.ToString("HH:mm:ss");
                 _window.LogTextBox.AppendText($"[{timestamp}] {message}\r\n");
+
+                if (_window.LogTextBox.LineCount > MAX_LOG_LINES + 50)
+                {
+                    var lines = _window.LogTextBox.Text.Split('\n');
+                    _window.LogTextBox.Text = string.Join('\n', lines.Skip(lines.Length - MAX_LOG_LINES));
+                }
+
                 _window.LogTextBox.ScrollToEnd();
             });
         }

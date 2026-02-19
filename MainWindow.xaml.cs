@@ -15,6 +15,8 @@ namespace WinControlBot
         private readonly UIService _uiService;
         private readonly SettingsService _settingsService;
         
+        private const int MAX_LOG_LINES = 1000;
+
         private bool _isExiting = false;
         private bool _isAutoStartMode;
 
@@ -89,6 +91,13 @@ namespace WinControlBot
             {
                 var timestamp = DateTime.Now.ToString("HH:mm:ss");
                 LogTextBox.AppendText($"[{timestamp}] {message}\r\n");
+
+                if (LogTextBox.LineCount > MAX_LOG_LINES + 50)
+                {
+                    var lines = LogTextBox.Text.Split('\n');
+                    LogTextBox.Text = string.Join('\n', lines.Skip(lines.Length - MAX_LOG_LINES));
+                }
+
                 LogTextBox.ScrollToEnd();
             });
         }

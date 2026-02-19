@@ -217,7 +217,7 @@ namespace WinControlBot
                     await action();
                     return; // Success
                 }
-                catch (HttpRequestException ex) when (ex.Message.Contains("429") || ex.Message.Contains("Too Many Requests"))
+                catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.TooManyRequests)
                 {
                     LogReceived?.Invoke(string.Format(LocalizationManager.Instance["Bot_SendMessageRetry"], RETRY_DELAY_MS));
                     await Task.Delay(RETRY_DELAY_MS * (retry + 1)); // Exponential delay

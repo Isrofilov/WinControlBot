@@ -72,7 +72,7 @@ namespace WinControlBot.Services
                     return new Icon(iconPath);
                 }
 
-                using var iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TelegramSystemBot.Resources.favicon.ico");
+                using var iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WinControlBot.favicon.ico");
                 if (iconStream != null)
                 {
                     return new Icon(iconStream);

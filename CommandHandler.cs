@@ -1,3 +1,4 @@
+using System.Globalization;
 using WinControlBot.Localization;
 
 namespace WinControlBot
@@ -10,6 +11,8 @@ namespace WinControlBot
 
     public class CommandHandler : ICommandHandler
     {
+        private static readonly string[] _supportedCultures = { "en-US", "ru-RU" };
+
         private readonly ISystemService _systemService;
         private readonly IScreenshotService _screenshotService;
 
@@ -39,31 +42,42 @@ namespace WinControlBot
             }
         }
 
+        private static bool MatchesKey(string buttonText, string resourceKey)
+        {
+            foreach (var cultureName in _supportedCultures)
+            {
+                var value = Resources.Strings.ResourceManager.GetString(resourceKey, new CultureInfo(cultureName));
+                if (value == buttonText)
+                    return true;
+            }
+            return false;
+        }
+
         private async Task HandleButtonCommandAsync(CommandContext context)
         {
             var buttonText = context.Message.Text;
 
-            if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Status"])
+            if (MatchesKey(buttonText, "Bot_Keyboard_Status"))
             {
                 await HandleStatusCommandAsync(context);
             }
-            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Screenshot"])
+            else if (MatchesKey(buttonText, "Bot_Keyboard_Screenshot"))
             {
                 await HandleScreenshotCommandAsync(context);
             }
-            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Sleep"])
+            else if (MatchesKey(buttonText, "Bot_Keyboard_Sleep"))
             {
                 await HandleAuthorizedCommandAsync(context, "Bot_Sleep", "rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
             }
-            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Hibernate"])
+            else if (MatchesKey(buttonText, "Bot_Keyboard_Hibernate"))
             {
                 await HandleAuthorizedCommandAsync(context, "Bot_Hibernate", "rundll32.exe powrprof.dll,SetSuspendState Hibernate");
             }
-            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Shutdown"])
+            else if (MatchesKey(buttonText, "Bot_Keyboard_Shutdown"))
             {
                 await HandleAuthorizedCommandAsync(context, "Bot_Shutdown", "shutdown /s /t 0");
             }
-            else if (buttonText == LocalizationManager.Instance["Bot_Keyboard_Restart"])
+            else if (MatchesKey(buttonText, "Bot_Keyboard_Restart"))
             {
                 await HandleAuthorizedCommandAsync(context, "Bot_Restart", "shutdown /r /t 0");
             }
