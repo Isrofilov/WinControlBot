@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Forms = System.Windows.Forms;
@@ -66,17 +65,9 @@ namespace WinControlBot.Services
         {
             try
             {
-                string iconPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "favicon.ico");
-                if (File.Exists(iconPath))
-                {
-                    return new Icon(iconPath);
-                }
-
                 using var iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WinControlBot.favicon.ico");
                 if (iconStream != null)
-                {
                     return new Icon(iconStream);
-                }
             }
             catch (Exception ex)
             {

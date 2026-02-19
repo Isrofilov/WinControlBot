@@ -12,22 +12,9 @@ namespace WinControlBot
 
         private static string GetApplicationPath()
         {
-            // Try different methods to get the application path
-            string path = Assembly.GetExecutingAssembly().Location;
-
-            if (string.IsNullOrEmpty(path))
-            {
-                // Fallback for single-file applications
-                path = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
-            }
-
-            if (string.IsNullOrEmpty(path))
-            {
-                // Another fallback
-                path = Environment.ProcessPath ?? string.Empty;
-            }
-
-            return path;
+            return Environment.ProcessPath
+                ?? Process.GetCurrentProcess().MainModule?.FileName
+                ?? string.Empty;
         }
 
         public static bool IsAutoStartEnabled
